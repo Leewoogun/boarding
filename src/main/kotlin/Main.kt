@@ -1,8 +1,12 @@
+import java.util.*
+
 fun main(args: Array<String>) {
     for (i in 0..2){
-        val result = solution1()
-        println(result)
+        val result1 = solution1()
+        println(result1)
     }
+    val result2 = solution2()
+    println(result2)
 }
 
 fun solution1() : Int{
@@ -22,5 +26,29 @@ fun solution1() : Int{
         return 2
     }
     else return 0
+}
+
+fun solution2() : String{
+    val input = readLine()
+    val stack = Stack<Char>()
+    var result = ""
+
+    for (i in input!!){
+
+        if (stack.isEmpty()){
+            stack.add(i)
+            continue
+        }
+
+        if (stack.peek() == i){
+            stack.pop()
+        }
+        else stack.push(i)
+    }
+
+    for (i in stack){
+        result += i
+    }
+    return result
 }
 
