@@ -9,8 +9,12 @@ fun main(args: Array<String>) {
 //    println(result2)
 //    print(solution3(33))\
 //    print(solution4("I love you"))
-    print(solution5(50237))
+//    print(solution5(50237))
+    val input = arrayListOf(arrayListOf("jm@email.com", "제이엠"), arrayListOf("jason@email.com", "제이슨"), arrayListOf("woniee@email.com", "워니")
+        , arrayListOf("mj@email.com", "엠제이"), arrayListOf("nowm@email.com", "이제엠"))
+    print(solution6(input))
 }
+
 
 fun solution1() : Int{
     val pobi = readLine()!!.split(" ")
@@ -102,6 +106,44 @@ fun solution5(money : Int) : MutableList<Int> {
 
     return result
 }
+
+fun solution6(email : ArrayList<ArrayList<String>>) : List<String>{
+    val checkList = mutableListOf<String>()
+    var emailList = mutableListOf<String>()
+
+    for (i in email) {
+        if (i[0].split("@")[1] == "email.com"){
+            checkList.add(i[1])
+            emailList.add(i[0])
+        }
+    }
+    val result = checkName(checkList, emailList).toMutableSet().sorted().toList()
+    return result
+
+}
+
+fun checkName(checkList : MutableList<String>, emailList : MutableList<String>) : MutableList<String>{
+    var resultList = mutableListOf<String>()
+
+    for (i in 0 until checkList.size - 1){
+        for (j in i+1 until checkList.size){
+            for(k in 0 until checkList[i].length - 1){
+                var start = 0
+                if (checkList[j].contains(checkList[i].slice(start..start+1))){
+                    resultList.add(emailList[i])
+                    resultList.add(emailList[j])
+                    break
+                }
+                else start += 1
+            }
+        }
+    }
+
+    return resultList
+
+
+}
+
 
 
 
