@@ -150,9 +150,28 @@ fun checkName(checkList : MutableList<String>, emailList : MutableList<String>) 
 }
 
 fun solution7(user : String, friends: ArrayList<ArrayList<String>>, visitors : ArrayList<String>){
-    var result = mutableMapOf<String, Int>()
+    val resultMap = mutableMapOf<String, Int>()
     val userFriends = userWithFriends(user, friends) // donut, shakevan
-    userKnowFriends(userFriends, friends, user)
+    val knowUserScore = userKnowFriends(userFriends, friends, user)
+    val visitUserScore = visitScore(visitors)
+
+    println(knowUserScore)
+    println(visitUserScore)
+
+    for ((key, value) in knowUserScore){
+        resultMap[key] = value
+    }
+
+    for ((key, value) in visitUserScore){
+        if (!resultMap.containsKey(key)){
+            resultMap[key] = value
+        }
+        else
+        {
+            resultMap[key] = resultMap[key] + value
+        }
+    }
+
 }
 
 fun userWithFriends(user: String, friends : ArrayList<ArrayList<String>>) : MutableList<String>{
@@ -193,6 +212,18 @@ fun userKnowFriends(userFriends : MutableList<String>, friends: ArrayList<ArrayL
     }
 
     return knowUserScore
+}
+
+fun visitScore(visitors : ArrayList<String>) : HashMap<String, Int>{
+    val setVisit = visitors.toSet()
+    val visitUserScore = hashMapOf<String, Int>()
+
+    for (i in setVisit){
+        val number = visitors.count{it == i}
+        visitUserScore[i] = number
+    }
+
+    return visitUserScore
 }
 
 
