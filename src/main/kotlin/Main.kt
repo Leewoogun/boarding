@@ -1,12 +1,14 @@
 import java.util.*
 
 fun main(args: Array<String>) {
-    for (i in 0..2){
-        val result1 = solution1()
-        println(result1)
-    }
-    val result2 = solution2()
-    println(result2)
+//    for (i in 0..2){
+//        val result1 = solution1()
+//        println(result1)
+//    }
+//    val result2 = solution2("browoanoommnaon")
+//    println(result2)
+//    print(solution3(33))\
+    print(solution4("I love you"))
 }
 
 fun solution1() : Int{
@@ -28,12 +30,11 @@ fun solution1() : Int{
     else return 0
 }
 
-fun solution2() : String{
-    val input = readLine()
+fun solution2(input : String) : String{
     val stack = Stack<Char>()
     var result = ""
 
-    for (i in input!!){
+    for (i in input){
 
         if (stack.isEmpty()){
             stack.add(i)
@@ -51,4 +52,40 @@ fun solution2() : String{
     }
     return result
 }
+
+fun solution3(number : Int) :Int {
+    var clap = 0
+
+    for (i in 1..number) {
+        val num = i.toString()
+        for (j in num) {
+            if (j == '3' || j == '6'|| j == '9'){
+                clap += 1
+            }
+        }
+    }
+
+    return clap
+}
+
+fun solution4(word : String): String{
+    val alpha = "abcdefghijklmnopqrstuvwxyz" // 0 ~ 25
+
+    var result = ""
+
+    for ((idx, value) in word.withIndex()){
+        if (value.isUpperCase()){
+            result += alpha[25- alpha.indexOf(value.lowercaseChar())].uppercaseChar()
+        }
+        else if (value.isLowerCase()){
+            result += alpha[25 - alpha.indexOf(value)]
+        }
+        else result += value
+    }
+
+    return result
+}
+
+
+
 
