@@ -8,7 +8,8 @@ fun main(args: Array<String>) {
 //    val result2 = solution2("browoanoommnaon")
 //    println(result2)
 //    print(solution3(33))\
-    print(solution4("I love you"))
+//    print(solution4("I love you"))
+    print(solution5(50237))
 }
 
 fun solution1() : Int{
@@ -81,6 +82,22 @@ fun solution4(word : String): String{
             result += alpha[25 - alpha.indexOf(value)]
         }
         else result += value
+    }
+
+    return result
+}
+
+fun solution5(money : Int) : MutableList<Int> {
+    var result : MutableList<Int> = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    val moneyList = arrayOf(50000, 10000, 5000, 1000, 500, 100, 50, 10, 1)
+    var money2 = money
+
+    for ((idx, value) in moneyList.withIndex()){
+        if (money2 - value >= 0){
+            result[idx] = money2 / value
+            money2 -= (money2 / value) * value
+        }
+        else continue
     }
 
     return result
