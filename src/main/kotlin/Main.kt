@@ -1,4 +1,5 @@
 import java.util.*
+import kotlin.collections.HashMap
 
 fun main(args: Array<String>) {
 //    for (i in 0..2){
@@ -10,9 +11,15 @@ fun main(args: Array<String>) {
 //    print(solution3(33))\
 //    print(solution4("I love you"))
 //    print(solution5(50237))
-    val input = arrayListOf(arrayListOf("jm@email.com", "제이엠"), arrayListOf("jason@email.com", "제이슨"), arrayListOf("woniee@email.com", "워니")
-        , arrayListOf("mj@email.com", "엠제이"), arrayListOf("nowm@email.com", "이제엠"))
-    print(solution6(input))
+//    val input6 = arrayListOf(arrayListOf("jm@email.com", "제이엠"), arrayListOf("jason@email.com", "제이슨"), arrayListOf("woniee@email.com", "워니")
+//        , arrayListOf("mj@email.com", "엠제이"), arrayListOf("nowm@email.com", "이제엠"))
+//    print(solution6(input))
+    val user = "mrko"
+    val friends = arrayListOf(arrayListOf("donut", "andole"), arrayListOf("donut", "jun"), arrayListOf("donut", "mrko"),
+        arrayListOf("shakevan", "andole"), arrayListOf("shakevan", "jun"), arrayListOf("shakevan", "mrko"))
+    val visitors = arrayListOf("bedi", "bedi", "donut", "bedi", "shakevan")
+    solution7(user, friends, visitors)
+
 }
 
 
@@ -140,9 +147,55 @@ fun checkName(checkList : MutableList<String>, emailList : MutableList<String>) 
     }
 
     return resultList
-
-
 }
+
+fun solution7(user : String, friends: ArrayList<ArrayList<String>>, visitors : ArrayList<String>){
+    var result = mutableMapOf<String, Int>()
+    val userFriends = userWithFriends(user, friends) // donut, shakevan
+    userKnowFriends(userFriends, friends, user)
+}
+
+fun userWithFriends(user: String, friends : ArrayList<ArrayList<String>>) : MutableList<String>{
+    val userFriends = mutableListOf<String>()
+    for (i in friends){
+        if (i[0] == user){
+            userFriends.add(i[1])
+        }
+        else if (i[1] == user){
+            userFriends.add(i[0])
+        }
+    }
+    return userFriends
+}
+
+fun userKnowFriends(userFriends : MutableList<String>, friends: ArrayList<ArrayList<String>>, user : String) : HashMap<String, Int>{
+    var numPeopleList = mutableListOf<String>()
+    var knowUserScore = hashMapOf<String, Int>()
+    for(i in friends){
+        if (userFriends.contains(i[0])){
+            if(user != i[1]){
+                numPeopleList.add(i[1])
+            }
+        }
+        else if(userFriends.contains(i[1])){
+            if(user != i[0]){
+                numPeopleList.add(i[0])
+            }
+        }
+    }
+
+    val setPeople = numPeopleList.toSet()
+
+    for (i in setPeople){
+        val number = numPeopleList.count{it == i}
+        val score = number * 10
+        knowUserScore[i] = score
+    }
+
+    return knowUserScore
+}
+
+
 
 
 
