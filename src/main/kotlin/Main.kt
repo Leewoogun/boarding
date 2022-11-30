@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
     val friends = arrayListOf(arrayListOf("donut", "andole"), arrayListOf("donut", "jun"), arrayListOf("donut", "mrko"),
         arrayListOf("shakevan", "andole"), arrayListOf("shakevan", "jun"), arrayListOf("shakevan", "mrko"))
     val visitors = arrayListOf("bedi", "bedi", "donut", "bedi", "shakevan")
-    solution7(user, friends, visitors)
+    print(solution7(user, friends, visitors))
 
 }
 
@@ -149,28 +149,27 @@ fun checkName(checkList : MutableList<String>, emailList : MutableList<String>) 
     return resultList
 }
 
-fun solution7(user : String, friends: ArrayList<ArrayList<String>>, visitors : ArrayList<String>){
-    val resultMap = mutableMapOf<String, Int>()
+fun solution7(user : String, friends: ArrayList<ArrayList<String>>, visitors : ArrayList<String>) : MutableList<String>{
+    val resultList = mutableListOf<Pair<String, Int>>()
+    var result = mutableListOf<String>()
     val userFriends = userWithFriends(user, friends) // donut, shakevan
     val knowUserScore = userKnowFriends(userFriends, friends, user)
-    val visitUserScore = visitScore(visitors)
-
-    println(knowUserScore)
-    println(visitUserScore)
+    val visitUserScore = visitScore(visitors, userFriends)
 
     for ((key, value) in knowUserScore){
-        resultMap[key] = value
+        resultList.add(key to value)
     }
 
     for ((key, value) in visitUserScore){
-        if (!resultMap.containsKey(key)){
-            resultMap[key] = value
-        }
-        else
-        {
-            resultMap[key] = resultMap[key] + value
-        }
+        resultList.add(key to value)
     }
+
+    resultList.sortWith(compareBy<Pair<String, Int>> {-it.second}.thenBy { it.first })
+
+    for (i in resultList){
+        result.add(i.first)
+    }
+    return result
 
 }
 
@@ -214,7 +213,7 @@ fun userKnowFriends(userFriends : MutableList<String>, friends: ArrayList<ArrayL
     return knowUserScore
 }
 
-fun visitScore(visitors : ArrayList<String>) : HashMap<String, Int>{
+fun visitScore(visitors : ArrayList<String>, userFriends: MutableList<String>) : HashMap<String, Int>{
     val setVisit = visitors.toSet()
     val visitUserScore = hashMapOf<String, Int>()
 
@@ -223,8 +222,13 @@ fun visitScore(visitors : ArrayList<String>) : HashMap<String, Int>{
         visitUserScore[i] = number
     }
 
+    for (i in userFriends){
+        visitUserScore.remove(i)    // 사용자와 이미 친구면 지우기
+    }
+
     return visitUserScore
 }
+
 
 
 
